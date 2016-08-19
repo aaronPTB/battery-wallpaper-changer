@@ -1,19 +1,19 @@
 #!/bin/bash
 
 while true; do
+	sleep 1s
 	BATLVL=$(upower -i /org/freedesktop/UPower/devices/battery_BAT1 |\
 		grep -oE "[0-9]*%" |\
 		grep -oP "\d*" |\
 		head -1)
+        CHARGING=$(upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep "state: *charging")
 	
-	if [ $BATLVL -gt 30 ]; then
+	if [ $BATLVL -gt 30 ] || [ ${#CHARGING} -gt 0 ]; then
 		feh --bg-fill ~/Pictures/Wallpapers/EmiliaVector.png
 	elif [ $BATLVL -gt 15 ]; then
 		feh --bg-fill ~/Pictures/Wallpapers/KillLaKillSatsuki.jpg
 	else
 		feh --bg-fill ~/Pictures/Wallpapers/KillLaKillMatoi2.png
 	fi
-
-	sleep 1m
 done
 	
