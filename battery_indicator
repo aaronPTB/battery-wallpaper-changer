@@ -1,27 +1,41 @@
 #!/bin/bash
 
-WALLPAPER=~/Pictures/Wallpapers/EmiliaVector.png
+WALLPAPER=~/Pictures/.wallpaper
+feh --bg-scale $WALLPAPER
 
 while true; do
-	sleep 1s
+	
+	#Need to update wallpaper to load a new image
+	WALLPAPER=~/Pictures/.wallpaper
+
+	## Uses upower to get the battery level and then filter everything
+	## Except the number out
 	BATLVL=$(upower -i /org/freedesktop/UPower/devices/battery_BAT1 |\
 		grep -oE "[0-9]*%" |\
 		grep -oP "\d*" |\
 		head -1)
+
+	## Uses upower to check if the battery is charging
         CHARGING=$(upower -i /org/freedesktop/UPower/devices/battery_BAT1 |\
 		grep "state: *charging")
 	
+	## Doing math based on battery level to apply to 
+	## The screen
+
 	export BATLVL
 	BATLVL=$(perl -e 'print 10*sqrt($ENV{BATLVL})')
 
 	if [ ${#CHARGING} -gt 0 ]; then
-		feh --bg-fill $WALLPAPER
+		feh --bg-scale $WALLPAPER
 	else
 		convert $WALLPAPER \
 		-set option:modulate:colorspace hsb \
-		-modulate $BATLVL ~/.wallpaper.png
-
-		feh --bg-fill ~/.wallpaper.png
+		-modulate 100,$BATLVL \
+		~/Pictures/.mod-wallpaper.png
+		
+		feh --bg-scale ~/Pictures/.mod-wallpaper.png
 	fi
+
+	sleep 1s
 done
 	

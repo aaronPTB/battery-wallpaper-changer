@@ -9,3 +9,10 @@ Move the script in this file to somewhere in your PATH variable and then add the
 battery_indicator & 
 
 to a startup dotfile such as ~/.xinitrc
+
+You will also want to install the following packages:
+
+image-magick
+inotify-tools
+
+and anything else that breaks dependencies
