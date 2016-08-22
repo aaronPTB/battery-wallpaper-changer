@@ -31,7 +31,7 @@ while true; do
 
 	if [ ${#CHARGING} -gt 0 ]; then
 		feh --bg-scale $WALLPAPER
-	elif [ $LASLVL -ne $BASTLVL ]
+	elif [ $LASLVL -ne $BATLVL ]
 		convert $WALLPAPER \
 		-set option:modulate:colorspace hsb \
 		-modulate 100,$SCRLVL \
