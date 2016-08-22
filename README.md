@@ -10,9 +10,8 @@ battery_indicator &
 
 to a startup dotfile such as ~/.xinitrc
 
-You will also want to install the following packages:
+You will also want to install the following package(s):
 
 image-magick
-inotify-tools
 
-and anything else that breaks dependencies
+
