@@ -4,7 +4,7 @@ WALLPAPER=~/Pictures/.wallpaper
 feh --bg-scale $WALLPAPER
 
 LASLVL=0
-
+WASCHARGING=false
 while true; do
 	
 	#Need to update wallpaper to load a new image
@@ -28,20 +28,25 @@ while true; do
 
 	## Decide how the wallpaper tweens with time
 	SCRLVL=$(perl -e 'print 10*sqrt($ENV{BATLVL})')
+	BLRLVL=$(perl -e 'print 5 - .5*sqrt($ENV{BATLVL})')
 
 	if [ ${#CHARGING} -gt 0 ]; then
 		feh --bg-scale $WALLPAPER
-	elif [ $LASLVL -ne $BATLVL ]
+		WASCHARGING=true
+	elif [ $LASLVL -ne $BATLVL ] || [ $WASCHARGING ]; then
 		convert $WALLPAPER \
 		-set option:modulate:colorspace hsb \
 		-modulate 100,$SCRLVL \
-		~/Pictures/.mod-wallpaper.png
-		
-		feh --bg-scale ~/Pictures/.mod-wallpaper.png
+		-blur 0x$BLRLVL \
+		~/Pictures/.mod-wallpaper
+
+		feh --bg-scale ~/Pictures/.mod-wallpaper
+
+		WASCHARGING=false
+			
 	fi
 
 	sleep .1
-
 	LASLVL=$BATLVL
 done
 	
